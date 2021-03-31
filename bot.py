@@ -19,14 +19,14 @@ from vk_api.upload import VkUpload
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from newsapi import NewsApiClient
 
-vkToken = "a244f42cfaacef0f2fc24a253e56023acb0b7ab2f4eb92a3d3678774762aa88114969172edf49b9fa00c9"
-newsToken = "90719d7c48ef4c4b8db63eb36ddc4b3b"
-weather = "67806cbbedd8957300b27a1c5cc820e7"
+vkToken = ""
+newsToken = ""
+weather = ""
 newsLink = "https://newsapi.org/v2/everything"
-admin = 243578504
-club = 194548161
-conf = 2000000001
-conf2 = 2000000003
+admin = 
+club = 
+conf = 
+conf2 = 
 
 owm = pyowm.OWM(weather, language = "RU")
 maps = {
@@ -38,10 +38,7 @@ maps = {
     5: "Train &#128526;",
     6: "Overpass &#128525;",
 }
-#Персонажи
-characters={
 
-}
 # Registration phrases
 phrases = ["Введите имя", "Введите фамилию", "Введите пол (м/ж)", "Отношение к курению?", "Семейное положение?",
            "Добавьте фото"]
@@ -433,14 +430,7 @@ while True:
     try:
         for event in longpoll.listen():
             if event.type == VkBotEventType.MESSAGE_NEW:
-                if "ставь лайк" in event.message.text.lower() and "леха" not in event.message.text.lower() and "леху" not in event.message.text.lower():
-                    peer_id = event.object.message['peer_id']
-                    vk.messages.send(
-                        random_id=rand(),
-                        peer_id=peer_id,
-                        message="Лайк &#128077;",
-                    )
-                elif event.message.text.lower() == "!новости" and event.message.from_id not in condition:
+                if event.message.text.lower() == "!новости" and event.message.from_id not in condition:
                     peer_id = event.object.message['peer_id']
                     personId = event.message.from_id
                     condition[personId] = "новости"
@@ -448,20 +438,6 @@ while True:
                         random_id=rand(),
                         peer_id=peer_id,
                         message="Про что вывести новости?(!выход если не хочешь искать новости)",
-                    )
-                elif event.message.text.lower() == "!созвать" and event.message.from_id not in condition:
-                    peer_id = event.object.message['peer_id']
-                    vk.messages.send(
-                        random_id=rand(),
-                        peer_id=peer_id,
-                        message="Ебаный в рот обратите внимание на это сообщение @all",
-                    )
-                elif "!шанс" in event.message.text.lower() and event.message.from_id not in condition:
-                    peer_id = event.object.message['peer_id']
-                    vk.messages.send(
-                        random_id=rand(),
-                        peer_id=peer_id,
-                        message=f"Шанс этого {random.randint(0, 100)}%",
                     )
                 elif event.message.text.lower() == "!регистрация" and event.message.from_id not in condition:
                     peer_id = event.object.message['peer_id']
@@ -533,10 +509,7 @@ while True:
                         peer_id=peer_id,
                         message=f"Команды:\n"
                                 f"🔹 !погода\n"
-                                f"🔹 !Шанс (можно писать в любом месте предложения)\n"
-                                f"🔹 Ставь лайк\n"
                                 f"🔹 !Новости\n"
-                                f"🔹 !Кто\n"
                                 f"🔹 !Регистрация\n"
                                 f"🔹 !Моя анкета\n"
                                 f"🔹 !Удалить анкету\n"
@@ -545,17 +518,6 @@ while True:
                                 f"🔹 !Поиск\n"
                                 f"🔹 !Добавить сервер\n"
                                 f"🔹 !График\n"
-                                f"🔹 !Созвать\n"
-                                f"🔹 !Название\n",
-                    )
-                elif "!кто" in event.message.text.lower() or "!кого" in event.message.text.lower() and event.message.from_id not in condition:
-                    peer_id = event.object.message['peer_id']
-                    profiles = vk.messages.getConversationMembers(peer_id=peer_id, group_id=club)['profiles']
-                    profile = random.choice(profiles)
-                    vk.messages.send(
-                        random_id=rand(),
-                        peer_id=peer_id,
-                        message=f"Я думаю, это {profile['first_name']} {profile['last_name']} &#128533;",
                     )
                 elif event.message.text.lower() == "!добавить сервер" and event.message.from_id not in condition:
                     peer_id = event.object.message['peer_id']
@@ -573,14 +535,6 @@ while True:
                         random_id=rand(),
                         message="График посещений какого сервера вы хотели бы получить?"
                     )
-                elif event.message.text.lower() == "!название" and event.message.from_id not in condition:
-                    peer_id = event.object.message['peer_id']
-                    condition[event.message.from_id] = 'название'
-                    vk.messages.send(
-                        random_id=rand(),
-                        peer_id=peer_id,
-                        message=f"Какое название беседы сделать? &#128580;",
-                    )
                 # проверка состояний
                 elif event.message.from_id in condition and condition[event.message.from_id] == "новости":
                     if event.message.text.lower() == "!выход":
@@ -597,7 +551,7 @@ while True:
                     vk.messages.send(
                         random_id=rand(),
                         peer_id=event.object.message['peer_id'],
-                        message=message + f"Самые свежие новости для тебя, семпай &#128525;",
+                        message=message + f"Самые свежие новости для тебя &#128525;",
                     )
                     condition.pop(event.message.from_id)
                 elif event.message.from_id in condition and condition[event.message.from_id][0] == "регистрация":
